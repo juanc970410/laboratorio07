@@ -5,6 +5,17 @@
   
 <mapper namespace="edu.eci.pdsw.samples.mybatis.mappers.PacienteMapper">
 
-
+    <resultMap type='Paciente' id='datosPaciente'>
+        <id property='id' column='id'/>
+        <result property='tipo_id' column='tipo_id'/>
+        <result property='nombre' column='nombre'/>
+        <result property='fechaNacimiento' column='fecha_nacimiento'/>
+        <collection property='consultas' ofType='ConsultasPaciente'></collection>
+    </resultMap>
+    <resultMap type='Consulta' id='consultaResult'>
+        <id property='id' column='idCONSULTAS'/>
+        <result property='fechayHora' column='fecha_y_hora'/>
+        <result property='resumen' column='resumen'/>        
+    </resultMap>
                                                                                                 
 </mapper>
