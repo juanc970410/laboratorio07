@@ -7,15 +7,19 @@
 
     <resultMap type='Paciente' id='datosPaciente'>
         <id property='id' column='id'/>
-        <result property='tipo_id' column='tipo_id'/>
+        <id property='tipo_id' column='tipo_id'/>
         <result property='nombre' column='nombre'/>
         <result property='fechaNacimiento' column='fecha_nacimiento'/>
-        <collection property='consultas' ofType='ConsultasPaciente'></collection>
+        <collection property='consultas' ofType='Consulta' columnPrefix="consulta_"></collection>
     </resultMap>
     <resultMap type='Consulta' id='consultaResult'>
         <id property='id' column='idCONSULTAS'/>
         <result property='fechayHora' column='fecha_y_hora'/>
-        <result property='resumen' column='resumen'/>        
+        <result property='resumen' column='resumen'/>
+        <collection property='resultado' ofType='Consulta' resultMap='consultaResult'></collection>        
     </resultMap>
-                                                                                                
+    
+    <select id='loadPacienteById' parameterType='map' resultMap='datosPaciente'>
+        select id, tipo_id, nombre, fecha_nacimiento, idCONSULTAS as consulta_idCONSULTAS, fecha_y_hora as consulta_fecha_y_hora, resumen as consulta_resumen from PACIENTES as pac left join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id where pac.id=#{idpaciente} and pac.tipo_id=#{tipoidpaciente}
+    </select>
 </mapper>

@@ -68,10 +68,10 @@ public class MyBatisExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
 
         SqlSession sqlss = sessionfact.openSession();
-
-        PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
-
         
+        PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
+        
+        System.out.println(pmap.loadPacienteById(1019129303, "cc"));
         
         sqlss.commit();
         
