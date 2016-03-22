@@ -22,4 +22,12 @@
     <select id='loadPacienteById' parameterType='map' resultMap='datosPaciente'>
         select id, tipo_id, nombre, fecha_nacimiento, idCONSULTAS as consulta_idCONSULTAS, fecha_y_hora as consulta_fecha_y_hora, resumen as consulta_resumen from PACIENTES as pac left join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id where pac.id=#{idpaciente} and pac.tipo_id=#{tipoidpaciente}
     </select>
+    
+    <insert id="insertPaciente" parameterType='Paciente'>
+        insert into PACIENTES values (#{paciente.id},#{paciente.tipo_id},#{paciente.nombre},#{paciente.fechaNacimiento})
+    </insert>
+    
+    <insert id="insertConsulta" parameterType="map" useGeneratedKeys="true" keyProperty="consulta.id">
+        insert into CONSULTAS (fecha_y_hora,resumen,PACIENTES_id, PACIENTES_tipo_id) values (#{consulta.fechayHora},#{consulta.resumen},#{idpaciente},#{tipoidpaciente})
+    </insert>
 </mapper>

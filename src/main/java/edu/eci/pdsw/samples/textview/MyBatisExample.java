@@ -72,10 +72,19 @@ public class MyBatisExample {
         PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
         
         System.out.println(pmap.loadPacienteById(1019129303, "cc"));
-        
+        Paciente p = new Paciente(2103021, "cc", "Camilo", java.sql.Date.valueOf("1997-04-10"));
+        pmap.insertPaciente(p);
+        Consulta c = new Consulta(java.sql.Date.valueOf("2016-03-22"), "Jairo tiene gripa");
+        pmap.insertConsulta(c, 2103021, "cc");
+        Paciente p1 = new Paciente(1019093806,"cc","Jairo",java.sql.Date.valueOf("1994-04-10"));
+        Consulta c1 = new Consulta(java.sql.Date.valueOf("2016-03-22"), "Jairo se esta mejorando");
+        Consulta c2 = new Consulta(java.sql.Date.valueOf("2016-03-23"), "Jairo no se quiere mejorar");
+        Consulta c3 = new Consulta(java.sql.Date.valueOf("2016-03-24"), "Excusa medica pa' capar clase");
+        p1.getConsultas().add(c1);
+        p1.getConsultas().add(c2);
+        p1.getConsultas().add(c3);
+        registrarNuevoPaciente(pmap, p1);
         sqlss.commit();
-        
-        
         sqlss.close();
 
     }
@@ -85,8 +94,11 @@ public class MyBatisExample {
      * @param pmap mapper a traves del cual se hará la operacion
      * @param p paciente a ser registrado
      */
-    public void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
-        
+    public static void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
+        pmap.insertPaciente(p);
+        for (Consulta c : p.getConsultas()){
+            pmap.insertConsulta(c, p.getId(), p.getTipo_id());
+        }
     }
     
 
